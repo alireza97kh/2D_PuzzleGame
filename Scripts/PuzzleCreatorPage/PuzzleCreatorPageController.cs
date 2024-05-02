@@ -13,10 +13,15 @@ using Application = UnityEngine.Application;
 
 public class PuzzleCreatorPageController : DobeilPageBase
 {
-	[SerializeField] private Image selectedImage;
-	[SerializeField] private TMP_InputField levlInput;
+
+	[SerializeField] private RectTransform puzzleImageParent;
+	[SerializeField] private Image resultImage;
+	[SerializeField] private Sprite defaultSprite;
+	[SerializeField] private TMP_InputField levelInput;
 	[SerializeField] private TMP_InputField rowCountInput;
 	[SerializeField] private TMP_InputField columnCountInput;
+
+	private PuzzleLevelData newPuzzleLevel;
 
 	protected override void HidePage(object data = null)
 	{
@@ -34,43 +39,76 @@ public class PuzzleCreatorPageController : DobeilPageBase
 	}
 	protected override void ShowPage(object data = null)
 	{
-		if (data != null && data is Sprite)
+		resultImage.sprite = defaultSprite;
+	}
+	#region LoadNewImage
+	public void OnBrowserFileButtonClick()
+	{
+		DobeilFileBrowser.Instance.GetImageFromFileBrowser(OnDonLoadImage);
+	}
+	private void OnDonLoadImage(string filePath)
+	{
+		Texture2D texture = DobeilHelper.Instance.LoadTextureFromFile(filePath, true, filePath);
+
+		if (texture != null)
 		{
-			selectedImage.sprite = (Sprite)data;
+			resultImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f);
+			resultImage.SetNativeSize();
+			float _scale = NormalizeLoadedPuzzleRect(texture);
+			resultImage.rectTransform.localScale = new Vector3(_scale, _scale, _scale);
+			newPuzzleLevel = new PuzzleLevelData()
+			{
+				fullImagePath = filePath,
+				levelData = new List<PuzzleLevelSpirteData>(),
+				normalizedScale = _scale,
+				puzzleWidth = texture.width,
+				puzzleHeight = texture.height
+			};
 		}
 		else
 		{
-			DobeilPageManager.Instance.BackToLastPage();
+			DobeilLogger.LogError("Failed to load texture from file: " + filePath);
 		}
 	}
+	private float NormalizeLoadedPuzzleRect(Texture2D texure)
+	{
+		return puzzleImageParent.rect.width / texure.width;
+	}
+	#endregion
+	#region Split Loaded Image
 	public void OnCreatePuzzleButtonClick()
 	{
-        if (String.IsNullOrEmpty(rowCountInput.text) || String.IsNullOrEmpty(columnCountInput.text))
+        if (String.IsNullOrEmpty(rowCountInput.text) || String.IsNullOrEmpty(columnCountInput.text) || String.IsNullOrEmpty(levelInput.text))
 			return;
-        int _row = int.Parse(rowCountInput.text);
-		int _col = int.Parse(columnCountInput.text);
+		newPuzzleLevel.rowCount = int.Parse(rowCountInput.text);
+		newPuzzleLevel.colCount = int.Parse(columnCountInput.text);
+		newPuzzleLevel.level = int.Parse(levelInput.text);
+		newPuzzleLevel.levelData = SpliteImage(newPuzzleLevel.rowCount, newPuzzleLevel.colCount, DobeilHelper.Instance.GetTextureFromSprite(resultImage.sprite));
+
+
+
 
 		Puzzles puzzles = SaveManager<Puzzles>.LoadData("PuzzleData");
 		if (puzzles == null)
 		{
 			puzzles = new Puzzles();
 		}
-		puzzles.puzzleLevel.Add(new PuzzleLevelData()
-		{
-			level = int.Parse(levlInput.text),
-			levelData = SpliteImage(_row, _col, GetTextureFromSprite(selectedImage.sprite))
-		});
+		int _index = puzzles.puzzleLevel.FindIndex(x => x.level == newPuzzleLevel.level);
+		if (_index != -1)
+			puzzles.puzzleLevel.RemoveAt(_index);
+
+
+		puzzles.puzzleLevel.Add(newPuzzleLevel);
 		SaveManager<Puzzles>.SaveData("PuzzleData", puzzles);
 		GameData.Instance.UpdatePuzzleData();
-
-		DobeilPageManager.Instance.ShowPageByName("MainMenu", flushPageStack: true);
+		Back();
 	}
 	private List<PuzzleLevelSpirteData> SpliteImage(int rows, int cols, Texture2D puzzleImage)
 	{
 		int pieceWidth = puzzleImage.width / cols;
 		int pieceHeight = puzzleImage.height / rows;
 		List<PuzzleLevelSpirteData> result = new List<PuzzleLevelSpirteData>();
-		string createImagePath = Application.dataPath + "/Texture/_Levels/" + levlInput.text;
+		string createImagePath = Application.dataPath + "/Texture/_Levels/" + levelInput.text;
 		if (Directory.Exists(createImagePath))
 			FileUtil.DeleteFileOrDirectory(createImagePath);
 
@@ -105,23 +143,6 @@ public class PuzzleCreatorPageController : DobeilPageBase
 
 
 	}
-	Texture2D GetTextureFromSprite(Sprite sprite)
-	{
-		if (sprite.texture != null)
-		{
-			// If the sprite has a texture, return it
-			return sprite.texture;
-		}
-		else
-		{
-			Texture2D texture = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height);
-			texture.SetPixels(sprite.texture.GetPixels((int)sprite.textureRect.x,
-													  (int)sprite.textureRect.y,
-													  (int)sprite.textureRect.width,
-													  (int)sprite.textureRect.height));
-			texture.Apply();
-			return texture;
-		}
-	}
+	#endregion
 
 }

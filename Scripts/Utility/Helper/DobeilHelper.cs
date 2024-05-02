@@ -68,6 +68,24 @@ public class DobeilHelper : Singleton<DobeilHelper>
 		}
 	}
 
+	public Texture2D GetTextureFromSprite(Sprite sprite)
+	{
+		if (sprite.texture != null)
+		{
+			return sprite.texture;
+		}
+		else
+		{
+			Texture2D texture = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height);
+			texture.SetPixels(sprite.texture.GetPixels((int)sprite.textureRect.x,
+													  (int)sprite.textureRect.y,
+													  (int)sprite.textureRect.width,
+													  (int)sprite.textureRect.height));
+			texture.Apply();
+			return texture;
+		}
+	}
+
 	public Texture2D SQR(Texture2D texture)
     {
         var width = texture.width;

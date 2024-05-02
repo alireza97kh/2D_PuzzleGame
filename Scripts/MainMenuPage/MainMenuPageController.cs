@@ -26,6 +26,11 @@ public class MainMenuPageController : DobeilPageBase
 
 	public void OnAddPuzzleBtnClick()
 	{
-		DobeilPageManager.Instance.ShowPageByName("FileBrowserPage", true);
+		DobeilPageManager.Instance.ShowPageByName("PuzzleCreatorPage", true);
+	}
+
+	public void OnPlayGameButtonClick()
+	{
+		DobeilPageManager.Instance.ShowPageByName("MainGamePlayPage", true);
 	}
 }

@@ -10,8 +10,10 @@ public class VisualDataMenu : ScriptableObject
 		get
 		{
 			if (instance == null)
-				instance = Resources.Load<VisualDataMenu>("VisualDataMenu");
+				instance = Resources.Load<VisualDataMenu>("VisualDataMenu/VisualDataMenu");
 			return instance;
 		}
 	}
+
+	public MainGamePlayPageData MainGamePlayPageData;
 }

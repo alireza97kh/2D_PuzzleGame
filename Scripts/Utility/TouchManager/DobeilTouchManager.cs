@@ -7,8 +7,6 @@ using Dobeil;
 using TouchType = Dobeil.TouchType;
 public abstract class DobeilTouchManager : MonoBehaviour
 {
-    [PreviewField(70, ObjectFieldAlignment.Center)]
-    public Texture2D SingleObject;
     [EnumToggleButtons]
     [HideLabel]
     [FoldoutGroup("Touch Manager")]

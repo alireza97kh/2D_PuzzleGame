@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab68f9496ddc8f848bf975d6bd87b7e9, type: 3}
-  m_Name: VisualDataMenu
+  m_Script: {fileID: 11500000, guid: 7f4be76b6c3d950408e553cf8247b94d, type: 3}
+  m_Name: MainGamePlayPageData
   m_EditorClassIdentifier: 
-  MainGamePlayPageData: {fileID: 11400000, guid: 190151af6f573bb4c82010cea4b3a30a, type: 2}
+  puzzlePiecePrefab: {fileID: 1344778758236938320, guid: 5d0a9a793f295644e985b6859b699f40, type: 3}
