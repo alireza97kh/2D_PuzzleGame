@@ -42,4 +42,9 @@ public class GameData : MonoSingleton<GameData>
 		}
 		return playerProfile;
 	}
+
+	public void SaveProfile()
+	{
+		SaveManager<PlayerProfile>.SaveData("PlayerProfile", playerProfile);
+	}
 }

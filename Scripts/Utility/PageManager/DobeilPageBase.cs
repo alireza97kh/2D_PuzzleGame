@@ -1,4 +1,5 @@
 using Dobeil;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ public abstract class DobeilPageBase : MonoBehaviour
 {
     public string pageName = "";
     public float delayToActive = (float)0;
+    [EnumToggleButtons]
     public PageType pageType = PageType.FullPage;
     public bool isActivated = false;
 
