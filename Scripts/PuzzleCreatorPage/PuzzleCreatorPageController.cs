@@ -4,16 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
+using System.Linq;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Application = UnityEngine.Application;
 
 public class PuzzleCreatorPageController : DobeilPageBase
 {
-
 	[SerializeField] private RectTransform puzzleImageParent;
 	[SerializeField] private Image resultImage;
 	[SerializeField] private Sprite defaultSprite;
@@ -39,7 +37,12 @@ public class PuzzleCreatorPageController : DobeilPageBase
 	}
 	protected override void ShowPage(object data = null)
 	{
+#if !UNITY_EDITOR
+		Back();
+#else
 		resultImage.sprite = defaultSprite;
+		SetLevelText();
+#endif
 	}
 	#region LoadNewImage
 	public void OnBrowserFileButtonClick()
@@ -105,12 +108,15 @@ public class PuzzleCreatorPageController : DobeilPageBase
 	}
 	private List<PuzzleLevelSpirteData> SpliteImage(int rows, int cols, Texture2D puzzleImage)
 	{
+		List<PuzzleLevelSpirteData> result = new List<PuzzleLevelSpirteData>();
+#if UNITY_EDITOR
+
 		int pieceWidth = puzzleImage.width / cols;
 		int pieceHeight = puzzleImage.height / rows;
-		List<PuzzleLevelSpirteData> result = new List<PuzzleLevelSpirteData>();
+		
 		string createImagePath = Application.dataPath + "/Texture/_Levels/" + levelInput.text;
 		if (Directory.Exists(createImagePath))
-			FileUtil.DeleteFileOrDirectory(createImagePath);
+			UnityEditor.FileUtil.DeleteFileOrDirectory(createImagePath);
 
 		Directory.CreateDirectory(createImagePath);
 
@@ -139,10 +145,14 @@ public class PuzzleCreatorPageController : DobeilPageBase
 			}
 		}
 
+#endif
 		return result;
-
-
 	}
 	#endregion
+	private void SetLevelText()
+	{
+		int levelCount = GameData.Instance.puzzlesData.puzzlesLevelDatas.puzzleLevel.Count;
+		levelInput.text = (levelCount + 1).ToString();
+	}
 
 }

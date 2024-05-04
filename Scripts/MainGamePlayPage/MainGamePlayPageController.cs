@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class MainGamePlayPageController : DobeilPageBase
 	[SerializeField] private Image completedPuzzleImage;
 	[SerializeField] private GameObject puzllePiecesObject;
 	[SerializeField] private GridLayoutGroup puzllePiecesGrid;
+	[SerializeField] private TextMeshProUGUI levelText;
 
 	[SerializeField] private GameObject showFullImageButton;
 
@@ -67,6 +69,7 @@ public class MainGamePlayPageController : DobeilPageBase
 	protected override void ShowPage(object data = null)
 	{
 		level = GameData.Instance.PlayerProfile.level;
+		levelText.text = level.ToString();
 		currentLevelData = GameData.Instance.puzzlesData.puzzlesLevelDatas.puzzleLevel.Find(x => x.level == level);
 		if (currentLevelData == null)
 			Back();
@@ -74,10 +77,9 @@ public class MainGamePlayPageController : DobeilPageBase
 		currentLevelData.LoadFullImage(completedPuzzleImage);
 		puzllePiecesObject.SetActive(false);
 		showFullImageButton.SetActive(false);
-		//puzllePiecesGrid.enabled = true;
+		puzllePiecesGrid.enabled = true;
 		puzllePiecesGrid.constraintCount = currentLevelData.colCount;
 		puzllePiecesGrid.cellSize = new Vector2(currentLevelData.puzzleWidth / currentLevelData.colCount, currentLevelData.puzzleHeight / currentLevelData.rowCount);
-
 
 		currentLevelData.levelData = ShuffleList(currentLevelData.levelData);
 		int index = 0;

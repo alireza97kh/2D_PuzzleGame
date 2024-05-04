@@ -28,9 +28,6 @@ public class PuzzleSlotController : MonoBehaviour
 		startColliderSize = new Vector2(slotImage.rectTransform.rect.width, slotImage.rectTransform.rect.height);
 		startColliderSize *= 0.45f;
 		slotCollider.size = startColliderSize;
-
-
-
 	}
 
 	

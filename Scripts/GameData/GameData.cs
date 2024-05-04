@@ -36,7 +36,7 @@ public class GameData : MonoSingleton<GameData>
 			playerProfile = new PlayerProfile()
 			{
 				level = 1,
-				lastPuzzleState = new PuzzleLevelData()
+				lastPuzzleState = null
 			};
 			SaveManager<PlayerProfile>.SaveData("PlayerProfile", playerProfile);
 		}

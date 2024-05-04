@@ -53,6 +53,7 @@ public class DobeilHelper : Singleton<DobeilHelper>
 
     public void SetReadWriteEnabled(Texture2D texture, string assetPath = "")
 	{
+#if UNITY_EDITOR
         if (String.IsNullOrEmpty(assetPath))
 		    assetPath = UnityEditor.AssetDatabase.GetAssetPath(texture);
 
@@ -66,7 +67,8 @@ public class DobeilHelper : Singleton<DobeilHelper>
 		{
 			Debug.LogWarning("Failed to set 'Read/Write Enabled' for texture: " + assetPath);
 		}
-	}
+#endif
+    }
 
 	public Texture2D GetTextureFromSprite(Sprite sprite)
 	{
