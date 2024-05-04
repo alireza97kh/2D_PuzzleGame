@@ -29,7 +29,3 @@ Don't forget to give the project a star! Thanks again!
 
 ## Contact
 Alireza - alireza97khish@gmail.com
-Project Link: [https://github.com/alireza97kh/2D_PuzzleGame](https://dev.to/mochafreddo/how-to-manage-documentation-in-a-github-repository-a-guide-for-junior-developers-pgo)
-
-## Acknowledgments
-- Use this space to list resources you find helpful and would like to give credit to.
