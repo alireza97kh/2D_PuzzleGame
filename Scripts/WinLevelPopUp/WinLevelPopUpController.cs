@@ -22,11 +22,12 @@ public class WinLevelPopUpController : DobeilPageBase
 
 	protected override void ShowPage(object data = null)
 	{
-		
+		AudioManager.Instance.PlaySfx("Win");
 	}
 
 	public void OnNextLevelBtnClick(bool nextLevel)
 	{
+		AudioManager.Instance.PlaySfx("Click");
 		int level = GameData.Instance.PlayerProfile.level + (nextLevel ? 1 : 0);
 		PuzzleLevelData nextLevelData = GameData.Instance.puzzlesData.puzzlesLevelDatas.puzzleLevel.Find(x => x.level == level);
 		if (nextLevelData != null)

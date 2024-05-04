@@ -18,11 +18,6 @@ public class MainMenuPageController : DobeilPageBase
 	protected override void SetPageProperty()
 	{
 		GameData.Instance.UpdatePuzzleData();
-		//SaveManager<PlayerProfile>.SaveData("PlayerProfile", new PlayerProfile()
-		//{
-		//	lastPuzzleState = new PuzzleLevelData(),
-		//	level = 1
-		//});
 	}
 
 	protected override void ShowPage(object data = null)
@@ -32,11 +27,13 @@ public class MainMenuPageController : DobeilPageBase
 
 	public void OnAddPuzzleBtnClick()
 	{
+		AudioManager.Instance.PlaySfx("Click");
 		DobeilPageManager.Instance.ShowPageByName("PuzzleCreatorPage", true);
 	}
 
 	public void OnPlayGameButtonClick()
 	{
+		AudioManager.Instance.PlaySfx("Click");
 		DobeilPageManager.Instance.ShowPageByName("MainGamePlayPage", true);
 	}
 }

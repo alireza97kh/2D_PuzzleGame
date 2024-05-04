@@ -60,6 +60,7 @@ public abstract class DobeilPageBase : MonoBehaviour
 
     public virtual void Back()
     {
-        DobeilPageManager.Instance.BackToLastPage();
+		AudioManager.Instance.PlaySfx("Click");
+		DobeilPageManager.Instance.BackToLastPage();
     }
 }

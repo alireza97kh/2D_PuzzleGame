@@ -142,6 +142,7 @@ public class MainGamePlayPageController : DobeilPageBase
 
 	public void OnShowFullImageBtnClick()
 	{
+		AudioManager.Instance.PlaySfx("Click");
 		if (!showingFullImage)
 		{
 			showingFullImage = true;

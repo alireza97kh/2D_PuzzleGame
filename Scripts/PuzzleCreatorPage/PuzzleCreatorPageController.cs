@@ -47,6 +47,7 @@ public class PuzzleCreatorPageController : DobeilPageBase
 	#region LoadNewImage
 	public void OnBrowserFileButtonClick()
 	{
+		AudioManager.Instance.PlaySfx("Click");
 		DobeilFileBrowser.Instance.GetImageFromFileBrowser(OnDonLoadImage);
 	}
 	private void OnDonLoadImage(string filePath)
@@ -83,6 +84,7 @@ public class PuzzleCreatorPageController : DobeilPageBase
 	{
         if (String.IsNullOrEmpty(rowCountInput.text) || String.IsNullOrEmpty(columnCountInput.text) || String.IsNullOrEmpty(levelInput.text))
 			return;
+		AudioManager.Instance.PlaySfx("Click");
 		newPuzzleLevel.rowCount = int.Parse(rowCountInput.text);
 		newPuzzleLevel.colCount = int.Parse(columnCountInput.text);
 		newPuzzleLevel.level = int.Parse(levelInput.text);
