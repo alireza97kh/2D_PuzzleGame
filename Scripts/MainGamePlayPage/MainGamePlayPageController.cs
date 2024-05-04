@@ -74,7 +74,7 @@ public class MainGamePlayPageController : DobeilPageBase
 		currentLevelData.LoadFullImage(completedPuzzleImage);
 		puzllePiecesObject.SetActive(false);
 		showFullImageButton.SetActive(false);
-
+		//puzllePiecesGrid.enabled = true;
 		puzllePiecesGrid.constraintCount = currentLevelData.colCount;
 		puzllePiecesGrid.cellSize = new Vector2(currentLevelData.puzzleWidth / currentLevelData.colCount, currentLevelData.puzzleHeight / currentLevelData.rowCount);
 
@@ -108,6 +108,10 @@ public class MainGamePlayPageController : DobeilPageBase
 		await Task.Delay(System.TimeSpan.FromSeconds(showFullImageStartDellay));
 		puzllePiecesObject.SetActive(true);
 		showFullImageButton.SetActive(true);
+
+		await Task.Delay(TimeSpan.FromSeconds(Time.fixedDeltaTime));
+		puzllePiecesGrid.enabled = false;
+
 	}
 
 	private List<PuzzleLevelSpirteData> ShuffleList(List<PuzzleLevelSpirteData> puzzleLevelSpirteDatas)

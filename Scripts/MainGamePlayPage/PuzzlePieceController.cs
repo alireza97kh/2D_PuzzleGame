@@ -3,23 +3,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PuzzlePieceController : MonoBehaviour
 {
+	[SerializeField] private Image pieceImage;
+    [SerializeField] private DragAndDrop dragAndDrop;
+    [SerializeField] private PuzzleSlotController puzzleSlot;
 
-    [SerializeField] private Image pieceImage;
-	[SerializeField] private GameObject highLighteObject;
-
-    private PuzzleLevelSpirteData pieceData;
+	private PuzzleLevelSpirteData pieceData;
     private int currentRowState;
     private int currentColState;
+	
 	public void Init(PuzzleLevelSpirteData _pieceData, int _currentRowState, int _currentColState)
     {
         DobeilEventManager.RegisterGlobalEvent("SwapPieces", SwapPiece);
+        DobeilEventManager.RegisterGlobalEvent("OnEndDrag", OnEndDragCallBack);
         RefreshData(_pieceData);
 		currentRowState = _currentRowState;
 		currentColState = _currentColState;
+        puzzleSlot.Init();
+	}
+
+
+	private void OnEndDragCallBack(object obj)
+	{
+        if (puzzleSlot.hasTriggered)
+			DobeilEventManager.SendGlobalEvent("PuzzlePieceClicked", pieceData);
 	}
 
 	private void RefreshData(PuzzleLevelSpirteData _pieceData)
@@ -30,7 +41,6 @@ public class PuzzlePieceController : MonoBehaviour
 
 	private void SwapPiece(object obj)
 	{
-		highLighteObject.SetActive(false);
 		if (obj == null) return;
         if (obj is List<PuzzleLevelSpirteData>)
         {
@@ -52,13 +62,6 @@ public class PuzzlePieceController : MonoBehaviour
                 RefreshData(pieceData);
             }
         }
-	}
-
-	public void OnPuzzlePieceClick()
-    {
-        highLighteObject.SetActive(true);
-        DobeilEventManager.SendGlobalEvent("PuzzlePieceClicked", pieceData);
-
 	}
 
     public bool CheckPuzzlePiece()
