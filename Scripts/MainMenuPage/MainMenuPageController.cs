@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MainMenuPageController : DobeilPageBase
 {
+	[SerializeField] private GameObject addNewLevelObj;
 	protected override void HidePage(object data = null)
 	{
 		
@@ -18,6 +19,11 @@ public class MainMenuPageController : DobeilPageBase
 	protected override void SetPageProperty()
 	{
 		GameData.Instance.UpdatePuzzleData();
+#if UNITY_EDITOR
+		addNewLevelObj.SetActive(true);
+#else
+addNewLevelObj.SetActive(false);
+#endif
 	}
 
 	protected override void ShowPage(object data = null)

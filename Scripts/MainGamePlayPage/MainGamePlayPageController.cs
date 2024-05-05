@@ -68,11 +68,15 @@ public class MainGamePlayPageController : DobeilPageBase
 
 	protected override void ShowPage(object data = null)
 	{
+		completedPuzzleImage.enabled = true;
 		level = GameData.Instance.PlayerProfile.level;
 		levelText.text = level.ToString();
 		currentLevelData = GameData.Instance.puzzlesData.puzzlesLevelDatas.puzzleLevel.Find(x => x.level == level);
 		if (currentLevelData == null)
+		{
 			Back();
+			return;
+		}
 		RefreshUi();
 		currentLevelData.LoadFullImage(completedPuzzleImage);
 		puzllePiecesObject.SetActive(false);
@@ -113,6 +117,7 @@ public class MainGamePlayPageController : DobeilPageBase
 
 		await Task.Delay(TimeSpan.FromSeconds(Time.fixedDeltaTime));
 		puzllePiecesGrid.enabled = false;
+		completedPuzzleImage.enabled = false;
 
 	}
 
@@ -145,6 +150,7 @@ public class MainGamePlayPageController : DobeilPageBase
 		AudioManager.Instance.PlaySfx("Click");
 		if (!showingFullImage)
 		{
+			completedPuzzleImage.enabled = true;
 			showingFullImage = true;
 			puzllePiecesObject.SetActive(false);
 			ShowFullImage();

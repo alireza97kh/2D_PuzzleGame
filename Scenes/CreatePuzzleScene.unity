@@ -1323,6 +1323,7 @@ MonoBehaviour:
   delayToActive: 0
   pageType: 1
   isActivated: 1
+  addNewLevelObj: {fileID: 544083333}
 --- !u!1 &643167463
 GameObject:
   m_ObjectHideFlags: 0
@@ -2654,7 +2655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 196.54646, y: -51.009987}
+  m_AnchoredPosition: {x: 196.54646, y: -51.00998}
   m_SizeDelta: {x: 393.09293, y: 102.01997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1015597298
